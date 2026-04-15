@@ -1,0 +1,14 @@
+# .NET
+backend/**/bin/
+backend/**/obj/
+backend/**/*.user
+backend/**/appsettings.Development.json   # keep Production version only
+
+# React / Node
+frontend/**/node_modules/
+frontend/**/.env                           # never commit secrets
+frontend/**/dist/
+
+# VS
+.vs/
+*.suo

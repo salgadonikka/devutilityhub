@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+/* ─── Monospace font ──────────────────────────────────────────────── */
+@theme {
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+/* ─── Design tokens: dark (default) ──────────────────────────────── */
+:root,
+html.dark {
+  --t-bg:            #0a0a0a;
+  --t-surface:       #0f0f14;
+  --t-surface-2:     #14141f;
+  --t-primary:       #0033ff;
+  --t-secondary:     #ffb000;
+  --t-muted:         #4682b4;
+  --t-error:         #ff3333;
+  --t-border:        #1a2a5e;
+  --t-border-active: #0033ff;
+  --t-text:          #b0c8f0;
+  --t-text-bright:   #ddeaff;
+  --t-text-dim:      #4682b4;
+  --t-inv-bg:        #0033ff;
+  --t-inv-text:      #000814;
+  --t-glow:          0 0 8px rgba(0, 51, 255, 0.5);
+  --t-glow-sm:       0 0 4px rgba(0, 51, 255, 0.3);
+  --t-scanline:      rgba(0, 0, 0, 0.15);
+}
+
+/* ─── Design tokens: light ───────────────────────────────────────── */
+html.light {
+  --t-bg:            #f0ede0;
+  --t-surface:       #e8e4cf;
+  --t-surface-2:     #ddd8c0;
+  --t-primary:       #0033cc;
+  --t-secondary:     #b87300;
+  --t-muted:         #557799;
+  --t-error:         #cc2200;
+  --t-border:        #8899bb;
+  --t-border-active: #0033cc;
+  --t-text:          #1a2a4a;
+  --t-text-bright:   #070c1a;
+  --t-text-dim:      #557799;
+  --t-inv-bg:        #0033cc;
+  --t-inv-text:      #f0ede0;
+  --t-glow:          0 0 6px rgba(0, 51, 204, 0.2);
+  --t-glow-sm:       0 0 3px rgba(0, 51, 204, 0.12);
+  --t-scanline:      rgba(0, 0, 0, 0.03);
+}
+
+/* ─── Base ────────────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;
+    font-family: var(--font-mono);
+    background-color: var(--t-bg);
+    color: var(--t-text);
+  }
+
+  /* Form elements must inherit the monospace font */
+  input, textarea, button, select {
+    font-family: inherit;
+  }
+
+  /* Terminal scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--t-surface); }
+  ::-webkit-scrollbar-thumb { background: var(--t-border); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--t-muted); }
+
+  /* Terminal selection */
+  ::selection {
+    background: var(--t-primary);
+    color: var(--t-inv-text);
+  }
+}
+
+/* ─── Keyframes ───────────────────────────────────────────────────── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-2px) skewX(-0.5deg); }
+  50%       { transform: translateX(2px); }
+  75%       { transform: translateX(-1px) skewX(0.5deg); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ─── Utilities ──────────────────────────────────────────────────── */
+@layer utilities {
+  .text-glow    { text-shadow: var(--t-glow); }
+  .text-glow-sm { text-shadow: var(--t-glow-sm); }
+
+  .animate-blink    { animation: blink 1s step-end infinite; }
+  .animate-fade-in  { animation: fade-in 0.25s ease-out both; }
+  .animate-slide-in { animation: slide-in-left 0.2s ease-out both; }
+
+  /* Appends a blinking block cursor as ::after pseudo-element */
+  .cursor-block::after {
+    content: '█';
+    color: var(--t-primary);
+    animation: blink 1s step-end infinite;
+    margin-left: 1px;
+    line-height: 1;
+    font-size: 0.85em;
+  }
+
+  /* Full-viewport CRT scanline overlay */
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      var(--t-scanline) 2px,
+      var(--t-scanline) 4px
+    );
+  }
+
+  /* Glitch effect on hover */
+  .hover-glitch:hover {
+    animation: glitch 0.25s ease-in-out;
+  }
+}
