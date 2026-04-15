@@ -2,14 +2,53 @@ import { useState } from 'react'
 import TerminalPane from '../components/common/TerminalPane'
 import TextArea from '../components/common/TextArea'
 import Button from '../components/common/Button'
+import Loader from '../components/common/Loader'
+import { useApi } from '../hooks/useApi'
+import { processFormat } from '../api/formatApi'
+import type { FormatResponse } from '../types/api.types'
 
 type FormatType = 'json' | 'xml'
 
 export default function FormatterPage() {
   const [formatType, setFormatType] = useState<FormatType>('json')
   const [input, setInput] = useState('')
+  const [lastAction, setLastAction] = useState<'format' | 'minify' | 'validate' | null>(null)
+  const { data, loading, error, call } = useApi<FormatResponse>()
 
   const charCount = input.length
+
+  const handleAction = (action: 'format' | 'minify' | 'validate') => {
+    setLastAction(action)
+    call(() => processFormat({ input, action, overrideType: formatType }))
+  }
+
+  const handleCopy = () => {
+    if (data?.output) navigator.clipboard.writeText(data.output)
+  }
+
+  const handleClear = () => {
+    setInput('')
+    setLastAction(null)
+  }
+
+  const outputBadge = data
+    ? `[${data.detectedType.toUpperCase()}]`
+    : '[READY]'
+
+  const renderOutput = () => {
+    if (loading) return <Loader />
+    if (error) return <span className="text-red-400 text-xs">{error}</span>
+    if (!data || !lastAction) return <span className="cursor-block">awaiting input</span>
+    if (lastAction === 'validate' || !data.output) {
+      return data.isValid
+        ? <span className="text-green-400">✓ valid {data.detectedType.toUpperCase()}</span>
+        : <span className="text-red-400">✗ {data.errorMessage ?? 'invalid input'}</span>
+    }
+    if (!data.isValid) {
+      return <span className="text-red-400">✗ {data.errorMessage ?? 'invalid input'}</span>
+    }
+    return data.output
+  }
 
   return (
     <div className="flex flex-col gap-5 animate-fade-in">
@@ -74,7 +113,7 @@ export default function FormatterPage() {
         {/* Output */}
         <TerminalPane
           title="OUTPUT"
-          badge="[READY]"
+          badge={outputBadge}
           bodyClassName="p-3"
         >
           <div className="text-[10px] text-(--t-text-dim) mb-2 flex items-center gap-1">
@@ -90,7 +129,7 @@ export default function FormatterPage() {
               'whitespace-pre-wrap',
             ].join(' ')}
           >
-            <span className="cursor-block">awaiting input</span>
+            {renderOutput()}
           </div>
         </TerminalPane>
       </div>
@@ -101,20 +140,20 @@ export default function FormatterPage() {
         bodyClassName="p-3 flex items-center gap-2 flex-wrap"
         statusLeft={`> run a command on the ${formatType.toUpperCase()} in the input pane`}
       >
-        <Button size="sm" variant="secondary" disabled={!input}>
+        <Button size="sm" variant="secondary" disabled={!input || loading} onClick={() => handleAction('format')}>
           PRETTIFY
         </Button>
-        <Button size="sm" variant="secondary" disabled={!input}>
+        <Button size="sm" variant="secondary" disabled={!input || loading} onClick={() => handleAction('minify')}>
           MINIFY
         </Button>
-        <Button size="sm" variant="secondary" disabled={!input}>
+        <Button size="sm" variant="secondary" disabled={!input || loading} onClick={() => handleAction('validate')}>
           VALIDATE
         </Button>
         <div className="flex-1" />
-        <Button size="sm" variant="ghost" disabled={!input}>
+        <Button size="sm" variant="ghost" disabled={!data?.output} onClick={handleCopy}>
           COPY
         </Button>
-        <Button size="sm" variant="ghost" disabled={!input} onClick={() => setInput('')}>
+        <Button size="sm" variant="ghost" disabled={!input} onClick={handleClear}>
           CLEAR
         </Button>
       </TerminalPane>

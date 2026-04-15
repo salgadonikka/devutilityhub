@@ -1,0 +1,12 @@
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: DevUtilityHub.Api/Dockerfile
+      target: debug
+    container_name: devutilityhub-api-debug
+    ports:
+      - "5294:8080"   # API traffic
+      - "4024:4024"   # vsdbg remote debugger
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development

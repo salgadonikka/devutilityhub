@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker: Attach to .NET API",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:pickRemoteProcess}",
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": ["exec", "-i", "devutilityhub-api-debug"],
+        "debuggerPath": "/vsdbg/vsdbg",
+        "pipeCwd": "${workspaceFolder}"
+      },
+      "sourceFileMap": {
+        "/src/DevUtilityHub.Api": "${workspaceFolder}/backend/DevUtilityHub.Api"
+      }
+    },
+    {
+      "name": "Local: .NET API (no Docker)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-api",
+      "program": "${workspaceFolder}/backend/DevUtilityHub.Api/bin/Debug/net10.0/DevUtilityHub.Api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/backend/DevUtilityHub.Api",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  ]
+}

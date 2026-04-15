@@ -1,6 +1,5 @@
 using DevUtilityHub.Api.Extensions;
 using DevUtilityHub.Api.Middleware;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

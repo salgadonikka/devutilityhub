@@ -1,0 +1,45 @@
+name: Deploy Backend to Azure
+
+#on:
+#  push:
+#    branches: [ main ]
+#    paths:
+#      - 'backend/**'           # only runs when backend changes
+
+on: workflow_dispatch # allows manual trigger from GitHub UI
+
+env:
+  ACR_REGISTRY: ${{ secrets.ACR_REGISTRY }} # e.g. devutilityhub.azurecr.io
+  IMAGE_NAME: dev-utility-hub-api
+  APP_SERVICE_NAME: dev-utility-hub-api
+  RESOURCE_GROUP: dev-utility-hub-rg
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Log in to ACR
+        run: |
+          az acr login --name ${{ secrets.ACR_NAME }}
+
+      - name: Build and push Docker image
+        working-directory: backend/DevUtilityHub.Api
+        run: |
+          docker build -t $ACR_REGISTRY/$IMAGE_NAME:latest .
+          docker push $ACR_REGISTRY/$IMAGE_NAME:latest
+
+      - name: Deploy to Azure App Service
+        run: |
+          az webapp config container set \
+            --name $APP_SERVICE_NAME \
+            --resource-group $RESOURCE_GROUP \
+            --docker-custom-image-name $ACR_REGISTRY/$IMAGE_NAME:latest

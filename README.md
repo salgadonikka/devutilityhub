@@ -139,7 +139,7 @@ docker build -t devutilityhub ./DevUtilityHub.Api
 
 > Azure App Service Free F1 does not support Docker containers. Docker is for local containerized development only. A B1 plan or higher is required for container deployment to Azure.
 
----
+## <!--
 
 ## Deployment
 
@@ -150,7 +150,7 @@ docker build -t devutilityhub ./DevUtilityHub.Api
 
 **CORS** allows `https://toolkit.nikkapaola.com` and `http://localhost:5173`.
 
-Set `VITE_API_BASE_URL=https://api.toolkit.nikkapaola.com/api` as a Vercel environment variable for production builds.
+Set `VITE_API_BASE_URL=https://api.toolkit.nikkapaola.com/api` as a Vercel environment variable for production builds.-->
 
 ---
 
