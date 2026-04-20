@@ -2,12 +2,30 @@ import { useState } from 'react'
 import TerminalPane from '../components/common/TerminalPane'
 import TextArea from '../components/common/TextArea'
 import Button from '../components/common/Button'
+import Loader from '../components/common/Loader'
+import DiffViewer from '../components/diff/DiffViewer'
+import { useApi } from '../hooks/useApi'
+import { compareDiff } from '../api/diffApi'
+import type { DiffResponse } from '../types/api.types'
 
 export default function DiffPage() {
   const [textA, setTextA] = useState('')
   const [textB, setTextB] = useState('')
+  const { data, loading, error, call } = useApi<DiffResponse>()
 
   const canCompare = textA.trim().length > 0 && textB.trim().length > 0
+
+  const badge = data?.isValid ? `[${data.lines.length} lines]` : '[READY]'
+  const statusLeft = data?.isValid
+    ? `> added: ${data.addedCount}    removed: ${data.removedCount}    unchanged: ${data.lines.length - data.addedCount - data.removedCount}`
+    : '> added: --    removed: --    unchanged: --'
+
+  const renderResult = () => {
+    if (loading) return <Loader />
+    if (error) return <span className="text-(--t-error) text-xs">{error}</span>
+    if (data && !data.isValid) return <span className="text-(--t-error) text-xs">{data.errorMessage ?? 'Something went wrong'}</span>
+    return <DiffViewer lines={data?.lines ?? []} />
+  }
 
   return (
     <div className="flex flex-col gap-5 animate-fade-in">
@@ -70,7 +88,7 @@ export default function DiffPage() {
 
       {/* ── Compare button ─────────────────────────────────────── */}
       <div className="flex items-center gap-2">
-        <Button variant="primary" disabled={!canCompare}>
+        <Button variant="primary" disabled={!canCompare || loading} onClick={() => call(() => compareDiff({ textA, textB }))}>
           COMPARE
         </Button>
         <Button
@@ -89,9 +107,9 @@ export default function DiffPage() {
       {/* ── Diff output ────────────────────────────────────────── */}
       <TerminalPane
         title="DIFF RESULT"
-        badge="[READY]"
+        badge={badge}
         bodyClassName="p-3"
-        statusLeft="> added: --    removed: --    unchanged: --"
+        statusLeft={statusLeft}
       >
         {/* Diff legend */}
         <div className="flex items-center gap-4 mb-3 text-[10px]">
@@ -115,9 +133,7 @@ export default function DiffPage() {
             'border border-(--t-border) bg-(--t-surface-2) p-3',
           ].join(' ')}
         >
-          <span className="text-(--t-text-dim) cursor-block">
-            add text to both panes and compare
-          </span>
+          {renderResult()}
         </div>
       </TerminalPane>
 

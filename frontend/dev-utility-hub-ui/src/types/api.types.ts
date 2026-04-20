@@ -11,7 +11,7 @@ export interface TextTransformResponse { output: string; appliedOperations: stri
 
 export interface DiffRequest { textA: string; textB: string; }
 export interface DiffLine { type: "added" | "removed" | "unchanged"; content: string; lineNumber: number; }
-export interface DiffResponse { lines: DiffLine[]; addedCount: number; removedCount: number; }
+export interface DiffResponse { lines: DiffLine[]; addedCount: number; removedCount: number; isValid: boolean; errorMessage?: string; }
 
 export interface TimeRequest { direction: "toHuman" | "toUnix"; unixValue?: number; isMilliseconds?: boolean; humanValue?: string; }
 export interface TimeResponse { humanReadable: string; unixSeconds: number; unixMilliseconds: number; utc: string; }

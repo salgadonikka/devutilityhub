@@ -8,6 +8,7 @@ namespace DevUtilityHub.Api.Extensions
 		public static IServiceCollection AddDevUtilityServices(this IServiceCollection services)
 		{
 			services.AddScoped<IFormatService, FormatService>();
+			services.AddScoped<IDiffService, DiffService>();
 
 			return services;
 		}
