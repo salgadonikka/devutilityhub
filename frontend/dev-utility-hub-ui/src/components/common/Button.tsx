@@ -28,7 +28,7 @@ const variantClasses: Record<Variant, string> = {
 }
 
 const sizeClasses: Record<Size, string> = {
-  sm: 'px-2 py-0.5 text-[10px]',
+  sm: 'px-2 py-0.5 text-[11px]',
   md: 'px-3 py-1 text-xs',
 }
 

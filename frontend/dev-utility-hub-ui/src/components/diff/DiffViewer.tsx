@@ -26,7 +26,7 @@ export default function DiffViewer({ lines }: DiffViewerProps) {
   }
 
   return (
-    <div className="font-mono text-xs leading-relaxed">
+    <div className="font-mono text-sm leading-relaxed">
       {lines.map((line) => (
         <div
           key={line.lineNumber}

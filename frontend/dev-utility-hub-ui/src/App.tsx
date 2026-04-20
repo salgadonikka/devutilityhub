@@ -1,5 +1,6 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PageLayout from './components/layout/PageLayout'
+import HomePage from './pages/HomePage'
 import FormatterPage from './pages/FormatterPage'
 import EncodingPage from './pages/EncodingPage'
 import TextToolsPage from './pages/TextToolsPage'
@@ -11,7 +12,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PageLayout />}>
-          <Route index element={<Navigate to="/formatter" replace />} />
+          <Route index element={<HomePage />} />
           <Route path="formatter" element={<FormatterPage />} />
           <Route path="encode" element={<EncodingPage />} />
           <Route path="text" element={<TextToolsPage />} />

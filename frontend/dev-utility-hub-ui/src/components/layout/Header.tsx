@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 
 const shellPaths: Record<string, string> = {
+  '/':          '~',
   '/formatter': '~/formatter',
   '/encode':    '~/encode',
   '/text':      '~/text-tools',

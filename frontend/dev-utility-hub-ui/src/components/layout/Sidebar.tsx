@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 
 const tools = [
   { label: 'FORMATTER',  path: '/formatter', cmd: '{ }' },
@@ -13,7 +13,7 @@ export default function Sidebar() {
     <aside className="w-52 shrink-0 flex flex-col border-r border-(--t-border) bg-(--t-surface)">
 
       {/* ── Logo ─────────────────────────────────────────────────── */}
-      <div className="px-4 py-4 border-b border-(--t-border) shrink-0">
+      <Link to="/" className="px-4 py-4 border-b border-(--t-border) shrink-0 block hover:bg-(--t-surface-2) transition-colors duration-100">
         <div className="flex items-center gap-2">
           <span className="text-(--t-secondary) text-sm font-bold leading-none select-none">
             &gt;
@@ -25,7 +25,7 @@ export default function Sidebar() {
         <p className="text-[10px] text-(--t-text-dim) mt-1.5 pl-4 leading-none">
           v1.0.0-alpha
         </p>
-      </div>
+      </Link>
 
       {/* ── Navigation ───────────────────────────────────────────── */}
       <nav className="flex-1 py-2 overflow-y-auto">
@@ -34,11 +34,11 @@ export default function Sidebar() {
             {({ isActive }) => (
               <div
                 className={[
-                  'flex items-center gap-2.5 px-3 py-2.5 text-[10px] uppercase tracking-wider',
+                  'flex items-center gap-2.5 px-3 py-2.5 text-xs uppercase tracking-wider',
                   'transition-colors duration-100',
                   isActive
                     ? 'bg-(--t-primary) text-(--t-inv-text)'
-                    : 'text-(--t-text-dim) hover:text-(--t-text) hover:bg-(--t-surface-2)',
+                    : 'text-(--t-text) hover:text-(--t-text-bright) hover:bg-(--t-surface-2)',
                 ].join(' ')}
               >
                 {/* Active indicator */}

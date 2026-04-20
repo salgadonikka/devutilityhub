@@ -29,11 +29,11 @@ export default function TerminalPane({
     >
       {/* ── Title bar (inverted) ─────────────────────────────────── */}
       <div className="flex items-center justify-between px-3 py-1.5 bg-(--t-primary) text-(--t-inv-text) shrink-0">
-        <span className="text-[10px] uppercase tracking-widest font-bold leading-none">
+        <span className="text-xs uppercase tracking-widest font-bold leading-none">
           ■ {title}
         </span>
         {badge && (
-          <span className="text-[10px] opacity-75 leading-none">{badge}</span>
+          <span className="text-xs opacity-75 leading-none">{badge}</span>
         )}
       </div>
 
@@ -42,7 +42,7 @@ export default function TerminalPane({
 
       {/* ── Status bar ───────────────────────────────────────────── */}
       {hasStatus && (
-        <div className="flex items-center justify-between px-3 py-1 border-t border-(--t-border) bg-(--t-surface) text-[10px] text-(--t-text-dim) shrink-0 leading-none">
+        <div className="flex items-center justify-between px-3 py-1 border-t border-(--t-border) bg-(--t-surface) text-[11px] text-(--t-text-dim) shrink-0 leading-none">
           <span>{statusLeft ?? ''}</span>
           <span>{statusRight ?? ''}</span>
         </div>
