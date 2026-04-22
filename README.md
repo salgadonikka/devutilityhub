@@ -26,7 +26,7 @@ All processing logic lives in an ASP.NET Core Web API; React is a thin presentat
 - React 19 + TypeScript + Vite
 - Tailwind CSS v4 with a terminal-inspired dark/light design system
 - Axios for API communication
-<!--- Deployed to **Vercel**-->
+<!--- Deployed to **Cloudflare Pages**-->
 
 ### Backend
 
@@ -145,12 +145,12 @@ docker build -t devutilityhub ./DevUtilityHub.Api
 
 | Target   | Platform                  | URL                          |
 | -------- | ------------------------- | ---------------------------- |
-| Frontend | Vercel                    | `toolkit.nikkapaola.com`     |
+| Frontend | Cloudflare Pages          | `toolkit.nikkapaola.com`     |
 | Backend  | Azure App Service Free F1 | `api.toolkit.nikkapaola.com` |
 
 **CORS** allows `https://toolkit.nikkapaola.com` and `http://localhost:5173`.
 
-Set `VITE_API_BASE_URL=https://api.toolkit.nikkapaola.com/api` as a Vercel environment variable for production builds.-->
+Set `VITE_API_BASE_URL=https://api.toolkit.nikkapaola.com/api` as a Cloudflare Pages environment variable for production builds.-->
 
 ---
 
