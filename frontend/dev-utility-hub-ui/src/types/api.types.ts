@@ -7,7 +7,7 @@ export interface EncodeRequest { input: string; type: "base64" | "url" | "html";
 export interface EncodeResponse { output: string; success: boolean; errorMessage?: string; }
 
 export interface TextTransformRequest { input: string; operations: string[]; }
-export interface TextTransformResponse { output: string; appliedOperations: string[]; }
+export interface TextTransformResponse { output: string; appliedOperations: string[]; isValid: boolean; errorMessage?: string; }
 
 export interface DiffRequest { textA: string; textB: string; }
 export interface DiffLine { type: "added" | "removed" | "unchanged"; content: string; lineNumber: number; }

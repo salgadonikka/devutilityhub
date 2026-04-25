@@ -20,5 +20,7 @@ export function useApi<T>() {
     }
   };
 
-  return { data, loading, error, call };
+  const reset = () => { setData(null); setError(null); };
+
+  return { data, loading, error, call, reset };
 }
