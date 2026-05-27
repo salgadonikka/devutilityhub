@@ -6,5 +6,6 @@
 		public long? UnixValue { get; set; }
 		public bool IsMilliseconds { get; set; } = false;
 		public string? HumanValue { get; set; }  // ISO 8601 when direction = toUnix
+		public string? TimeZoneId { get; set; } // IANA timezone ID e.g. "America/New_York"
 	}
 }

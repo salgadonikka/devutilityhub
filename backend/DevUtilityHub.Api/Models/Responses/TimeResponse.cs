@@ -1,10 +1,13 @@
-﻿namespace DevUtilityHub.Api.Models.Responses
+namespace DevUtilityHub.Api.Models.Responses
 {
-	public class TimeResponse
-	{
-		public string HumanReadable { get; set; } = string.Empty;
-		public long UnixSeconds { get; set; }
-		public long UnixMilliseconds { get; set; }
-		public string Utc { get; set; } = string.Empty;
-	}
+    public class TimeResponse
+    {
+        public long Seconds { get; set; }
+        public long Ms { get; set; }
+        public string Utc { get; set; } = string.Empty;
+        public string Iso { get; set; } = string.Empty;
+        public string? Local { get; set; }
+        public bool IsValid { get; set; }
+        public string? ErrorMessage { get; set; }
+    }
 }

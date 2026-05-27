@@ -10,6 +10,7 @@ namespace DevUtilityHub.Api.Extensions
 			services.AddScoped<IFormatService, FormatService>();
 			services.AddScoped<IDiffService, DiffService>();
 			services.AddScoped<ITextTransformService, TextTransformService>();
+			services.AddScoped<ITimestampService, TimestampService>();
 
 			return services;
 		}

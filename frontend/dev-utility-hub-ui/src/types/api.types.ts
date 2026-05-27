@@ -13,5 +13,5 @@ export interface DiffRequest { textA: string; textB: string; }
 export interface DiffLine { type: "added" | "removed" | "unchanged"; content: string; lineNumber: number; }
 export interface DiffResponse { lines: DiffLine[]; addedCount: number; removedCount: number; isValid: boolean; errorMessage?: string; }
 
-export interface TimeRequest { direction: "toHuman" | "toUnix"; unixValue?: number; isMilliseconds?: boolean; humanValue?: string; }
-export interface TimeResponse { humanReadable: string; unixSeconds: number; unixMilliseconds: number; utc: string; }
+export interface TimeRequest { direction: "toHuman" | "toUnix"; unixValue?: number; isMilliseconds?: boolean; humanValue?: string; timeZoneId?: string; }
+export interface TimeResponse { seconds: number; ms: number; utc: string; iso: string; local?: string; isValid: boolean; errorMessage?: string; }
