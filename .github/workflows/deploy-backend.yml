@@ -9,8 +9,6 @@ name: Deploy Backend to Azure
 on: workflow_dispatch # allows manual trigger from GitHub UI
 
 env:
-  ACR_REGISTRY: ${{ secrets.ACR_REGISTRY }} # e.g. devutilityhub.azurecr.io
-  IMAGE_NAME: dev-utility-hub-api
   APP_SERVICE_NAME: dev-utility-hub-api
   RESOURCE_GROUP: dev-utility-hub-rg
 
@@ -47,24 +45,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Publish
+        working-directory: backend/DevUtilityHub.Api
+        run: dotnet publish --configuration Release --output ./publish
+
       - name: Log in to Azure
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Log in to ACR
-        run: |
-          az acr login --name ${{ secrets.ACR_NAME }}
-
-      - name: Build and push Docker image
-        working-directory: backend/DevUtilityHub.Api
-        run: |
-          docker build -t $ACR_REGISTRY/$IMAGE_NAME:latest .
-          docker push $ACR_REGISTRY/$IMAGE_NAME:latest
-
       - name: Deploy to Azure App Service
-        run: |
-          az webapp config container set \
-            --name $APP_SERVICE_NAME \
-            --resource-group $RESOURCE_GROUP \
-            --docker-custom-image-name $ACR_REGISTRY/$IMAGE_NAME:latest
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.APP_SERVICE_NAME }}
+          package: backend/DevUtilityHub.Api/publish
