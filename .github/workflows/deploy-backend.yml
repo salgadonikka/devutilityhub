@@ -52,7 +52,7 @@ jobs:
 
       - name: Publish
         working-directory: backend/DevUtilityHub.Api
-        run: dotnet publish --configuration Release --output ./publish
+        run: dotnet publish --configuration Release --runtime linux-x64 --self-contained true --output ./publish
 
       - name: Log in to Azure
         uses: azure/login@v2
