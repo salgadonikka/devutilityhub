@@ -1,12 +1,11 @@
 name: Deploy Backend to Azure
 
-#on:
-#  push:
-#    branches: [ main ]
-#    paths:
-#      - 'backend/**'           # only runs when backend changes
-
-on: workflow_dispatch # allows manual trigger from GitHub UI
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**" # only runs when backend changes
+  workflow_dispatch: # allows manual trigger from GitHub UI
 
 env:
   APP_SERVICE_NAME: dev-utility-hub-api

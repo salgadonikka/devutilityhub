@@ -4,7 +4,7 @@ interface TerminalPaneProps {
   title: string
   badge?: string
   statusLeft?: string
-  statusRight?: string
+  statusRight?: ReactNode
   children: ReactNode
   className?: string
   bodyClassName?: string

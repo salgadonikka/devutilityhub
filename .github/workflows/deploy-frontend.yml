@@ -1,12 +1,11 @@
 name: Deploy Frontend to Cloudflare Pages
 
-#on:
-#  push:
-#    branches: [ main ]
-#    paths:
-#      - 'frontend/**'          # only runs when frontend changes
-
-on: workflow_dispatch # allows manual trigger from GitHub UI
+on:
+  push:
+    branches: [main]
+    paths:
+      - "frontend/**" # only runs when frontend changes
+  workflow_dispatch: # allows manual trigger from GitHub UI
 
 jobs:
   deploy:
